@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Étudiants{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4"> Gestion des Étudiants</h1>
+
+    <form method="get" action="{{ path('student_index') }}" class="row g-3 mb-4">
+        <div class="col-md-8">
+            <input type="text" name="search" class="form-control" placeholder="Rechercher par nom, prénom ou email..." value="{{ app.request.query.get('search') }}">
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary"> Rechercher</button>
+            <a href="{{ path('student_index') }}" class="btn btn-secondary">Réinitialiser</a>
+        </div>
+    </form>
+
+    <a href="{{ path('student_new') }}" class="btn btn-success mb-3"> Ajouter un étudiant</a>
+
+    <table class="table table-striped border">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.nom }}</td>
+                <td>{{ student.prenom }}</td>
+                <td>{{ student.email }}</td>
+                <td>
+                    <a href="{{ path('student_show', {'id': student.id}) }}" class="btn btn-sm btn-info">Voir</a>
+                    <a href="{{ path('student_edit', {'id': student.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Aucun étudiant trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
